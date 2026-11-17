@@ -1,0 +1,43 @@
+{
+  "source": "https://footandanklecentre.co.uk/prices/",
+  "checked": "17 November 2026",
+  "groups": [
+    {
+      "title": "Physiotherapy appointments",
+      "description": "A first conversation, or time to continue your care.",
+      "rows": [
+        {"name": "First Consultation", "duration": "15 mins", "price": 0, "treatment": "physiotherapy"},
+        {"name": "Follow-up Physio", "duration": "30 mins", "price": 50, "treatment": "physiotherapy"},
+        {"name": "Follow-up Physio", "duration": "45 mins", "price": 85, "treatment": "physiotherapy"},
+        {"name": "Follow-up Physio", "duration": "60 mins", "price": 100, "treatment": "physiotherapy"},
+        {"name": "Shockwave + PT", "duration": "30 mins", "price": 120, "treatment": "shockwave-therapy"}
+      ]
+    },
+    {
+      "title": "Treatment sessions",
+      "description": "Explore session lengths for the treatment you’re interested in.",
+      "rows": [
+        {"name": "Cupping Therapy", "duration": "30 mins", "price": 65, "treatment": "cupping-therapy"},
+        {"name": "Cupping Therapy", "duration": "60 mins", "price": 120, "treatment": "cupping-therapy"},
+        {"name": "Acupuncture", "duration": "30 mins", "price": 65, "treatment": "acupuncture"},
+        {"name": "Acupuncture", "duration": "60 mins", "price": 120, "treatment": "acupuncture"},
+        {"name": "Dry Needling", "duration": "30 mins", "price": 65, "treatment": "dry-needling"},
+        {"name": "Dry Needling", "duration": "60 mins", "price": 120, "treatment": "dry-needling"},
+        {"name": "Electrotherapy", "duration": "30 mins", "price": 50, "treatment": "electrotherapy"},
+        {"name": "Triggerpoint Therapy", "duration": "30 mins", "price": 50, "treatment": "triggerpoint-therapy"},
+        {"name": "Triggerpoint Therapy", "duration": "45 mins", "price": 85, "treatment": "triggerpoint-therapy"},
+        {"name": "Triggerpoint Therapy", "duration": "60 mins", "price": 100, "treatment": "triggerpoint-therapy"},
+        {"name": "Sports Massage", "duration": "30 mins", "price": 65, "treatment": "sports-massage"},
+        {"name": "Sports Massage", "duration": "60 mins", "price": 120, "treatment": "sports-massage"}
+      ]
+    },
+    {
+      "title": "Additional options",
+      "description": "Discuss these options when planning your appointment.",
+      "rows": [
+        {"name": "Kinesiology Taping", "duration": "Add-on", "price": 10, "extra": true, "treatment": "physiotherapy"},
+        {"name": "Mobility & Balance Training", "duration": "45 mins", "price": 20, "treatment": "movement-and-wellbeing"}
+      ]
+    }
+  ]
+}

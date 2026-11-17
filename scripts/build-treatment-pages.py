@@ -2,6 +2,7 @@
 from pathlib import Path
 from html import escape
 import re
+import json
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / 'dist'
@@ -123,6 +124,9 @@ if '<details class="nav-treatments">' in home:
     home = re.sub(r'<details class="nav-treatments">.*?</details>', lambda _: dropdown, home, count=1, flags=re.S)
 else:
     home = home.replace('<a href="#treatments">Treatments</a>', dropdown, 1)
+if '<a href="prices/">Prices</a>' not in home:
+    home = home.replace('<a href="#faqs">FAQs</a>', '<a href="prices/">Prices</a><a href="#faqs">FAQs</a>', 1)
+    home = home.replace('<a href="booking/">Book now</a>', '<a href="prices/">Prices</a><a href="booking/">Book now</a>', 1)
 home_path.write_text(home, encoding='utf-8')
 head = home.split('<head>')[1].split('</head>')[0]
 header = home.split('<body>')[1].split('  <main id="main">')[0]
@@ -131,7 +135,7 @@ footer = '  <footer' + footer
 
 def page_links(fragment):
     fragment = re.sub(r'href="#(home|treatments|about|approach|faqs|first-visit)"', r'href="../index.html#\1"', fragment)
-    return fragment.replace('href="booking/', 'href="../booking/')
+    return fragment.replace('href="booking/', 'href="../booking/').replace('href="prices/', 'href="../prices/')
 
 out = DIST / 'treatments'
 out.mkdir(exist_ok=True)
@@ -209,4 +213,35 @@ booking_page = f'''<!doctype html>
 booking_dir = DIST / 'booking'
 booking_dir.mkdir(exist_ok=True)
 (booking_dir / 'index.html').write_text(booking_page, encoding='utf-8')
+
+pricing = json.loads((ROOT / 'content' / 'prices.json').read_text(encoding='utf-8'))
+prices_head = re.sub(r'<title>.*?</title>', '<title>Physiotherapy Prices | Station House Physio</title>', booking_head)
+prices_head = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Explore physiotherapy fees, session lengths, and treatment prices at Station House Physio, including a free 15-minute first consultation.">', prices_head)
+prices_header = page_links(header).replace('href="treatments/', 'href="../treatments/')
+prices_header = prices_header.replace('href="../prices/"', 'href="./" aria-current="page"')
+prices_footer = page_links(footer).replace('href="../prices/"', 'href="./" aria-current="page"')
+price_sections = []
+for index, group in enumerate(pricing['groups']):
+    rows = []
+    for row in group['rows']:
+        fee = 'Free' if row['price'] == 0 else f'£{row["price"]}'
+        if row.get('extra'):
+            fee = '+' + fee
+        label = f'Enquire about {row["name"]}, {row["duration"]}'
+        rows.append(f'<tr><th scope="row">{escape(row["name"])}</th><td>{escape(row["duration"])}</td><td class="price-fee">{fee}</td><td><a href="../booking/?treatment={row["treatment"]}" aria-label="{escape(label, quote=True)}">Enquire <span aria-hidden="true">↗</span></a></td></tr>')
+    price_sections.append(f'<section class="price-group" aria-labelledby="price-group-{index}"><h2 id="price-group-{index}">{escape(group["title"])}</h2><p>{escape(group["description"])}</p><table class="price-table"><caption class="visually-hidden">{escape(group["title"])}</caption><thead><tr><th scope="col">Appointment</th><th scope="col">Duration</th><th scope="col">Fee</th><th scope="col"><span class="visually-hidden">Booking</span></th></tr></thead><tbody>{"".join(rows)}</tbody></table></section>')
+prices_page = f'''<!doctype html>
+<html lang="en-GB"><head>{prices_head}</head><body>
+{prices_header}
+<main id="main">
+  <div class="wrap"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span aria-hidden="true">/</span><span aria-current="page">Prices</span></nav></div>
+  <section class="prices-hero"><div class="wrap"><div><p class="eyebrow">PLAN YOUR CARE</p><h1>Clear prices.<br><span class="serif">A personal approach.</span></h1><p>Choose the time and treatment that fit your next step. All prices are in pounds sterling.</p></div><div class="first-consultation"><p class="eyebrow">LET’S START WITH A CONVERSATION</p><h2>First consultation</h2><div class="consultation-fee">Free <span>15 minutes</span></div><p>Time to discuss your concerns and explore the next steps.</p><a class="button" href="../booking/?treatment=physiotherapy">Plan your first visit <span aria-hidden="true">↗</span></a></div></div></section>
+  <div class="wrap prices-content">{''.join(price_sections)}<section class="prices-help"><h2>Not sure which session to choose?</h2><p>Discuss your needs and the appropriate session length with the clinic before booking. Myofascial Release, Exercise Rehabilitation, and other services without a separate fee listed here can be discussed as part of that conversation.</p><p>Kinesiology Taping is an optional add-on, charged in addition to the appointment fee.</p><p class="prices-source">Prices matched to the <a href="{escape(pricing['source'], quote=True)}" target="_blank" rel="noopener noreferrer">Foot &amp; Ankle Centre physiotherapy fee schedule</a>, checked {escape(pricing['checked'])}. Confirm your appointment fee with the clinic before proceeding.</p></section></div>
+  <section class="booking-section wrap"><div class="booking-panel"><div><p class="eyebrow">YOUR NEXT STEP</p><h2>Ready to<br><span class="serif">move forward?</span></h2><p>Choose your treatment and share your preferred date and time.</p></div><a class="button button-light" href="../booking/">Book an appointment <span aria-hidden="true">↗</span></a></div></section>
+</main>
+{prices_footer}
+</body></html>'''
+prices_dir = DIST / 'prices'
+prices_dir.mkdir(exist_ok=True)
+(prices_dir / 'index.html').write_text(prices_page, encoding='utf-8')
 print(f'Generated {len(TREATMENTS)} treatment pages and updated homepage links.')

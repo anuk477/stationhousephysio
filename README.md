@@ -29,3 +29,7 @@ Upload the contents of `dist/` to the domain's web root to host this as a static
 Every treatment has a static HTML page in `dist/treatments/`. Homepage cards link directly to these pages and work without JavaScript. To update page content or regenerate the pages, edit `scripts/build-treatment-pages.py` and run `python scripts/build-treatment-pages.py`. The script reuses the homepage header and footer, and also generates the booking page. Clinical overviews include links to public patient information; the clinic should review its own service descriptions before public launch.
 
 The `/booking` route uses `dist/booking/index.html` (a static server may redirect to `/booking/`). Treatment links preselect the treatment with a public slug in the query string. Name and notes are never placed in the URL or browser storage. No patient information is transmitted; downloads happen locally. The submission button is disabled without JavaScript to prevent an unintended form submission.
+
+## Prices
+
+The `/prices` page is generated from `content/prices.json`. The 19 physiotherapy entries, session lengths, and fees were matched to https://footandanklecentre.co.uk/prices/ on 17 November 2026. Services without a separate price on that reference are not assigned an invented fee. Regenerate all pages with `python scripts/build-treatment-pages.py` after editing the schedule.

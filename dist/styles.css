@@ -99,3 +99,43 @@ textarea:focus-visible{outline:3px solid #3181c8;outline-offset:5px}
 .booking-form-card #booking-status:not(:empty){padding:15px;background:var(--soft-blue);border:1px solid var(--line);border-radius:4px}
 @media(max-width:1000px){.booking-page{gap:40px;grid-template-columns:.8fr 1.2fr}.booking-page-intro h1{font-size:47px}.booking-form-card{padding:28px}}
 @media(max-width:680px){.booking-page{grid-template-columns:1fr;gap:28px;padding-top:5px;padding-bottom:45px}.booking-page-intro{padding-top:0}.booking-page-intro h1{font-size:44px;letter-spacing:-2px}.booking-page-intro>p:not(.eyebrow){font-size:14px}.booking-explainer{margin:23px 0 10px;max-width:none;padding:20px}.booking-form-card{padding:24px 20px}.booking-form-card>h2{font-size:27px}.booking-page .form-row{grid-template-columns:1fr;gap:0}.booking-form-card input,.booking-form-card select,.booking-form-card textarea{font-size:16px}}
+/* Prices and session lengths */
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+.prices-hero{background:var(--soft-blue);padding:58px 0}
+.prices-hero>.wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:80px;align-items:center}
+.prices-hero h1{font-size:60px;letter-spacing:-2.7px}
+.prices-hero>.wrap>div>p:not(.eyebrow){max-width:430px;font-size:14px;line-height:1.9;color:var(--muted);margin-bottom:0}
+.first-consultation{background:var(--white);padding:30px;border:1px solid var(--line);border-radius:7px}
+.first-consultation .eyebrow{font-size:9px;margin-bottom:18px}
+.first-consultation h2{font-size:25px;letter-spacing:-.8px}
+.consultation-fee{font-family:var(--heading);font-size:45px;letter-spacing:-2px;margin:12px 0;color:var(--blue)}
+.consultation-fee span{font-family:var(--font);font-size:12px;letter-spacing:0;color:var(--muted);margin-left:12px}
+.first-consultation>p:not(.eyebrow){font-size:12px;color:var(--muted)}
+.first-consultation .button{margin-top:7px}
+.prices-content{padding-top:60px;max-width:1050px}
+.price-group{margin-bottom:48px}
+.price-group>h2{font-size:30px;letter-spacing:-1px;margin-bottom:12px}
+.price-group>p{font-size:13px;color:var(--muted);margin-bottom:24px}
+.price-table{border-collapse:collapse;width:100%;text-align:left;table-layout:fixed;font-size:13px}
+.price-table thead{background:var(--soft-blue);font-size:10px;letter-spacing:.04em;color:var(--muted)}
+.price-table th,.price-table td{padding:18px 20px;border-bottom:1px solid var(--line)}
+.price-table thead th{font-weight:500}
+.price-table th:first-child{width:46%}
+.price-table th:nth-child(2){width:19%}
+.price-table th:nth-child(3){width:15%}
+.price-table th:nth-child(4){width:20%}
+.price-table tbody th{font-weight:500}
+.price-table td:nth-child(2){color:var(--muted);font-size:12px}
+.price-table .price-fee{font-family:var(--heading);font-size:21px;font-weight:600;letter-spacing:-.7px;white-space:nowrap}
+.price-table td:last-child{text-align:right}
+.price-table td a{display:inline-flex;align-items:center;gap:12px;min-height:44px;font-size:11px;color:var(--blue);font-weight:500}
+.price-table td a:hover{text-decoration:underline}
+.price-table td a span{font-size:18px}
+.prices-help{padding:30px;background:var(--soft-blue);border-radius:5px}
+.prices-help h2{font-size:24px;letter-spacing:-.7px;margin-bottom:18px}
+.prices-help p{font-size:12px;color:var(--muted);line-height:1.9;max-width:750px}
+.prices-help .prices-source{font-size:10px;border-top:1px solid var(--line);padding-top:16px;margin-bottom:0}
+.prices-source a{text-decoration:underline;color:var(--blue)}
+.header nav>a[aria-current=page]{color:var(--blue);font-weight:700}
+@media(max-width:960px){.menu-toggle{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;width:44px;height:44px;background:transparent;border:1px solid var(--line);border-radius:4px}.menu-toggle span{width:19px;height:1px;background:var(--ink)}.header nav{display:none;position:absolute;left:20px;right:20px;top:calc(100% - 8px);background:var(--surface);padding:24px;border:1px solid var(--line);box-shadow:0 14px 28px #123b631a;z-index:5;border-radius:6px;align-items:stretch;max-height:calc(100dvh - 145px);overflow-y:auto;overscroll-behavior:contain}.header nav.is-open{display:flex;flex-direction:column;gap:4px}.header nav>a:not(.button){padding-block:12px}.header nav .button{margin-top:12px}.nav-treatments>summary{justify-content:space-between;padding:12px 0}.treatments-dropdown{position:static;width:100%;padding:14px;background:var(--soft-blue);box-shadow:none;margin:5px 0 12px}.treatments-dropdown:before{display:none}.dropdown-treatment-links{grid-template-columns:1fr;gap:0}.dropdown-treatment-links a{min-height:44px;font-size:12px}.prices-hero>.wrap{gap:35px}.prices-hero h1{font-size:48px}.price-table th,.price-table td{padding:14px}}
+@media(max-width:680px){.prices-hero{padding:35px 0}.prices-hero>.wrap{grid-template-columns:1fr;gap:27px}.prices-hero h1{font-size:44px;letter-spacing:-2px}.first-consultation{padding:25px}.prices-content{padding-top:40px}.price-group{margin-bottom:35px}.price-group>h2{font-size:26px}.price-table{font-size:12px}.price-table th,.price-table td{padding:12px 8px}.price-table th:first-child{width:40%}.price-table th:nth-child(2){width:20%}.price-table th:nth-child(3){width:17%}.price-table th:nth-child(4){width:23%}.price-table .price-fee{font-size:18px}.price-table td:nth-child(2){font-size:10px}.price-table td a{font-size:10px;gap:5px}.price-table td a span{font-size:15px}.prices-help{padding:23px}.prices-help h2{font-size:22px}}

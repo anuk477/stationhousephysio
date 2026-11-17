@@ -1,7 +1,7 @@
 const menuToggle = document.querySelector('.menu-toggle');
 const navigation = document.querySelector('#navigation');
 const treatmentsDropdown = document.querySelector('.nav-treatments');
-const desktopHover = window.matchMedia('(any-hover: hover) and (min-width: 681px)');
+const desktopHover = window.matchMedia('(any-hover: hover) and (min-width: 961px)');
 let dropdownCloseTimer;
 function cancelDropdownClose() {
   clearTimeout(dropdownCloseTimer);
@@ -51,7 +51,7 @@ document.addEventListener('click', event => {
 treatmentsDropdown.addEventListener('focusout', event => {
   if (!treatmentsDropdown.contains(event.relatedTarget)) treatmentsDropdown.open = false;
 });
-window.matchMedia('(min-width: 681px)').addEventListener('change', closeMenu);
+window.matchMedia('(min-width: 961px)').addEventListener('change', closeMenu);
 
 function openDialog(dialog) {
   dialog.showModal();
