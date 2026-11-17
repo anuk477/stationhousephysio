@@ -104,6 +104,9 @@ def card_to_link(match):
 
 home = re.sub(r'<button class="(treatment-card|specialist-treatment)" data-treatment="([^"]+)">(.*?)</button>', card_to_link, home, flags=re.S)
 home = re.sub(r'  <dialog id="treatment-dialog".*?</dialog>\s*', '', home, flags=re.S)
+home = re.sub(r'<dialog id="booking-dialog".*?</dialog>\s*', '', home, flags=re.S)
+home = home.replace('href="#" data-book', 'href="booking/"')
+home = home.replace('href="#booking"', 'href="booking/"')
 dropdown_links = ''.join(
     f'<a href="treatments/{row[1]}.html">{escape(row[2])}<span aria-hidden="true">↗</span></a>'
     for row in TREATMENTS
@@ -127,7 +130,8 @@ footer = home.split('  <footer')[1].split('</body>')[0]
 footer = '  <footer' + footer
 
 def page_links(fragment):
-    return re.sub(r'href="#(home|treatments|about|approach|faqs|booking|first-visit)"', r'href="../index.html#\1"', fragment)
+    fragment = re.sub(r'href="#(home|treatments|about|approach|faqs|first-visit)"', r'href="../index.html#\1"', fragment)
+    return fragment.replace('href="booking/', 'href="../booking/')
 
 out = DIST / 'treatments'
 out.mkdir(exist_ok=True)
@@ -138,7 +142,7 @@ for key, slug, title, appointment, tagline, intro, overview, points, question, a
     page_head = page_head.replace('href="styles.css"', 'href="../styles.css"').replace('src="script.js"', 'src="../script.js"')
     nav = ''.join(f'<a href="{other[1]}.html"'+(' aria-current="page"' if other[0] == key else '')+f'>{e(other[2])}<span aria-hidden="true">↗</span></a>' for other in TREATMENTS)
     bullets = ''.join(f'<li>{e(point)}</li>' for point in points)
-    page_header = page_links(header).replace('href="../index.html#booking"', 'href="#booking" data-book')
+    page_header = page_links(header)
     page_header = page_header.replace('href="treatments/', 'href="')
     page_header = page_header.replace(f'href="{slug}.html"', f'href="{slug}.html" aria-current="page"')
     page = f'''<!doctype html>
@@ -165,5 +169,44 @@ for key, slug, title, appointment, tagline, intro, overview, points, question, a
 </body>
 </html>
 '''
+    page = page.replace('href="#booking" data-book', 'href="../booking/"')
+    page = page.replace('href="../booking/"', f'href="../booking/?treatment={slug}"')
+    page = page.replace('Use the enquiry button on this page to prepare a request with this treatment selected. Online booking is not connected yet, so a downloaded enquiry does not reserve an appointment.', 'The enquiry button opens our booking page with this treatment selected. Add your preferences and download your request. The clinic must confirm availability before an appointment is booked.')
     (out / f'{slug}.html').write_text(page, encoding='utf-8')
+
+booking_head = re.sub(r'<title>.*?</title>', '<title>Book an Appointment | Station House Physio</title>', head)
+booking_head = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Plan your visit to Station House Physio. Choose a treatment and share your preferred appointment date and time.">', booking_head)
+booking_head = booking_head.replace('href="styles.css"', 'href="../styles.css"').replace('src="script.js"', 'src="../script.js"')
+booking_header = page_links(header).replace('href="treatments/', 'href="../treatments/')
+booking_header = booking_header.replace('href="../booking/"', 'href="#booking-form" aria-current="page"')
+booking_footer = page_links(footer).replace('href="../booking/"', 'href="#booking-form"')
+options = ''.join(f'<option value="{escape(row[1])}">{escape(row[2])}</option>' for row in TREATMENTS)
+booking_page = f'''<!doctype html>
+<html lang="en-GB">
+<head>{booking_head}</head>
+<body>
+{booking_header}
+  <main id="main">
+    <div class="wrap"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span aria-hidden="true">/</span><span aria-current="page">Booking</span></nav></div>
+    <section class="booking-page wrap">
+      <div class="booking-page-intro"><p class="eyebrow">LET’S GET YOU MOVING</p><h1>Your next step.<br><span class="serif">Made personal.</span></h1><p>Tell us what you’re looking for and when you’d prefer to visit.</p><div class="booking-explainer"><h2>A request, then a conversation.</h2><p>Your preferred date and time are a request, subject to availability. An appointment is only booked when the clinic confirms it.</p></div><a class="text-link" href="../index.html#treatments">Explore our treatments <span aria-hidden="true">↗</span></a></div>
+      <div class="booking-form-card"><h2>Book an appointment</h2><p class="booking-form-description">Fields marked <span aria-hidden="true">*</span> are required.</p>
+        <form id="booking-form" method="post">
+          <label for="patient-name">Name <span aria-hidden="true">*</span></label><input id="patient-name" name="name" autocomplete="name" maxlength="120" required>
+          <div class="form-row"><div><label for="preferred-date">Preferred date <span aria-hidden="true">*</span></label><input id="preferred-date" name="date" type="date" required></div><div><label for="preferred-time">Preferred time <span aria-hidden="true">*</span></label><input id="preferred-time" name="time" type="time" required></div></div>
+          <label for="appointment">Treatment <span aria-hidden="true">*</span></label><select id="appointment" name="appointment" required><option value="">Please select a treatment</option>{options}</select>
+          <label for="booking-notes">Notes <span class="optional-label">(optional)</span></label><textarea id="booking-notes" name="notes" rows="4" maxlength="2000" aria-describedby="notes-help" placeholder="Anything you’d like to ask before your visit?"></textarea><p class="form-hint" id="notes-help">A brief note is enough. Please avoid including detailed medical history.</p>
+          <div class="booking-form-notice"><strong>Online submission is not connected yet.</strong><p>This form creates a request you can download and send to the clinic using its verified contact details. Your name and notes stay in this page until you download them; nothing is sent to the clinic.</p></div>
+          <button class="button" type="submit" id="booking-submit" disabled>Download appointment request <span aria-hidden="true">↓</span></button><noscript><p>Please enable JavaScript to prepare and download your appointment request.</p></noscript><p id="booking-status" role="status" aria-atomic="true"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+{booking_footer}
+</body>
+</html>
+'''
+booking_dir = DIST / 'booking'
+booking_dir.mkdir(exist_ok=True)
+(booking_dir / 'index.html').write_text(booking_page, encoding='utf-8')
 print(f'Generated {len(TREATMENTS)} treatment pages and updated homepage links.')

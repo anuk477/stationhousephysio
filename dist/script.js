@@ -67,36 +67,58 @@ document.querySelectorAll('dialog').forEach(dialog => {
     if (event.target === dialog && (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom)) dialog.close();
   });
 });
-const appointmentSelect = document.querySelector('#appointment');
-const defaultAppointment = Number(document.body.dataset.defaultAppointment);
-if (Number.isInteger(defaultAppointment) && defaultAppointment >= 0 && defaultAppointment < appointmentSelect.options.length) {
-  appointmentSelect.selectedIndex = defaultAppointment;
-}
-document.querySelectorAll('[data-book]').forEach(link => {
-  link.addEventListener('click', event => {
-    event.preventDefault();
-    document.querySelector('#booking-status').textContent = '';
-    openDialog(document.querySelector('#booking-dialog'));
-  });
-});
 document.querySelector('[data-privacy]').addEventListener('click', () => openDialog(document.querySelector('#privacy-dialog')));
-const dateInput = document.querySelector('#preferred-date');
+
 function localDate(date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 }
-dateInput.min = localDate(new Date());
-document.querySelector('#booking-form').addEventListener('submit', event => {
-  event.preventDefault();
+const bookingForm = document.querySelector('#booking-form');
+if (bookingForm) {
+  const appointmentSelect = document.querySelector('#appointment');
+  const dateInput = document.querySelector('#preferred-date');
+  const nameInput = document.querySelector('#patient-name');
+  const requestedTreatment = new URLSearchParams(window.location.search).get('treatment');
+  if ([...appointmentSelect.options].some(option => option.value === requestedTreatment)) {
+    appointmentSelect.value = requestedTreatment;
+  }
   dateInput.min = localDate(new Date());
-  if (!event.currentTarget.reportValidity()) return;
-  const values = new FormData(event.currentTarget);
-  const formattedDate = new Intl.DateTimeFormat('en-GB', { dateStyle: 'long' }).format(new Date(`${values.get('date')}T12:00:00`));
-  const enquiry = `Station House Physio — Appointment enquiry\n\nAppointment: ${values.get('appointment')}\nPreferred date: ${formattedDate}\nPreferred time: ${values.get('time')}\n\nPlease contact me to discuss availability.\n\nThis is an enquiry, not a confirmed booking. Please send it to the clinic using verified contact details.\n`;
-  const url = URL.createObjectURL(new Blob([enquiry], { type: 'text/plain;charset=utf-8' }));
-  const link = document.createElement('a');
-  link.href = url; link.download = 'station-house-appointment-enquiry.txt';
-  document.body.append(link); link.click(); link.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-  document.querySelector('#booking-status').textContent = 'Your enquiry has been downloaded. Send it to the clinic using its verified contact details. No appointment has been booked.';
-});
+  dateInput.addEventListener('focus', () => { dateInput.min = localDate(new Date()); });
+  nameInput.addEventListener('input', () => nameInput.setCustomValidity(''));
+  bookingForm.addEventListener('input', () => {
+    document.querySelector('#booking-status').textContent = '';
+  });
+  bookingForm.addEventListener('submit', event => {
+    event.preventDefault();
+    dateInput.min = localDate(new Date());
+    nameInput.setCustomValidity(nameInput.value.trim() ? '' : 'Please enter your name.');
+    if (!bookingForm.reportValidity()) return;
+    const values = new FormData(bookingForm);
+    const formattedDate = new Intl.DateTimeFormat('en-GB', { dateStyle: 'long' }).format(new Date(`${values.get('date')}T12:00:00`));
+    const treatment = appointmentSelect.selectedOptions[0].textContent;
+    const notes = String(values.get('notes') || '').trim();
+    const request = [
+      'Station House Physio — Appointment request',
+      '',
+      `Name: ${String(values.get('name')).trim()}`,
+      `Treatment: ${treatment}`,
+      `Preferred date: ${formattedDate}`,
+      `Preferred time: ${values.get('time')}`,
+      `Notes: ${notes || 'None provided'}`,
+      '',
+      'This is a request, not a confirmed appointment.',
+      'Send this request to the clinic using verified contact details. The clinic must confirm availability.',
+      ''
+    ].join('\n');
+    const url = URL.createObjectURL(new Blob([request], { type: 'text/plain;charset=utf-8' }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'station-house-appointment-request.txt';
+    document.body.append(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    document.querySelector('#booking-status').textContent = 'Your appointment request has been downloaded. Send it to the clinic using its verified contact details. Your appointment is not confirmed yet.';
+  });
+  document.querySelector('#booking-submit').disabled = false;
+}
 document.querySelector('#year').textContent = new Date().getFullYear();

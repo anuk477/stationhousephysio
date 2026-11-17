@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123b63">
+  <meta name="description" content="Plan your visit to Station House Physio. Choose a treatment and share your preferred appointment date and time.">
+  <title>Book an Appointment | Station House Physio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Manrope:wght@400;500;600;650;700;750;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <script src="../script.js" defer></script>
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="topbar"><span>Movement matters. So do you.</span><a href="../index.html#first-visit">Your first visit <span aria-hidden="true">↗</span></a></div>
+  <header class="header">
+    <a class="brand" href="../index.html#home" aria-label="Station House Physio home"><svg viewBox="0 0 42 46" fill="none" aria-hidden="true"><path d="M7 25V13L21 5l14 8v12M13 34V18l8-5 8 5v16M7 29l14 9 14-9M7 36l14 9 14-9" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span>station house<span class="brand-sub">P H Y S I O T H E R A P Y</span></span></a>
+    <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="navigation"><span></span><span></span></button>
+    <nav id="navigation" aria-label="Main navigation"><details class="nav-treatments"><summary>Treatments <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="1.5"/></svg></summary><div class="treatments-dropdown"><p class="eyebrow">FIND YOUR WAY FORWARD</p><div class="dropdown-treatment-links"><a href="../treatments/physiotherapy.html">Physiotherapy<span aria-hidden="true">↗</span></a><a href="../treatments/sports-injury-rehabilitation.html">Sports Injury Rehabilitation<span aria-hidden="true">↗</span></a><a href="../treatments/post-operative-rehabilitation.html">Post-operative Rehabilitation<span aria-hidden="true">↗</span></a><a href="../treatments/movement-and-wellbeing.html">Movement &amp; Wellbeing<span aria-hidden="true">↗</span></a><a href="../treatments/shockwave-therapy.html">Shockwave Therapy<span aria-hidden="true">↗</span></a><a href="../treatments/myofascial-release.html">Myofascial Release<span aria-hidden="true">↗</span></a><a href="../treatments/triggerpoint-therapy.html">Triggerpoint Therapy<span aria-hidden="true">↗</span></a><a href="../treatments/exercise-rehabilitation.html">Exercise Rehabilitation<span aria-hidden="true">↗</span></a><a href="../treatments/electrotherapy.html">Electrotherapy<span aria-hidden="true">↗</span></a><a href="../treatments/dry-needling.html">Dry Needling<span aria-hidden="true">↗</span></a><a href="../treatments/cupping-therapy.html">Cupping Therapy<span aria-hidden="true">↗</span></a><a href="../treatments/acupuncture.html">Acupuncture<span aria-hidden="true">↗</span></a><a href="../treatments/sports-massage.html">Sports Massage<span aria-hidden="true">↗</span></a></div><a class="dropdown-all" href="../index.html#treatments">View all treatments <span aria-hidden="true">→</span></a></div></details><a href="../index.html#about">About us</a><a href="../index.html#approach">Our approach</a><a href="../index.html#faqs">FAQs</a><a class="button button-small" href="#booking-form" aria-current="page">Book an appointment <span aria-hidden="true">↗</span></a></nav>
+  </header>
+
+  <main id="main">
+    <div class="wrap"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span aria-hidden="true">/</span><span aria-current="page">Booking</span></nav></div>
+    <section class="booking-page wrap">
+      <div class="booking-page-intro"><p class="eyebrow">LET’S GET YOU MOVING</p><h1>Your next step.<br><span class="serif">Made personal.</span></h1><p>Tell us what you’re looking for and when you’d prefer to visit.</p><div class="booking-explainer"><h2>A request, then a conversation.</h2><p>Your preferred date and time are a request, subject to availability. An appointment is only booked when the clinic confirms it.</p></div><a class="text-link" href="../index.html#treatments">Explore our treatments <span aria-hidden="true">↗</span></a></div>
+      <div class="booking-form-card"><h2>Book an appointment</h2><p class="booking-form-description">Fields marked <span aria-hidden="true">*</span> are required.</p>
+        <form id="booking-form" method="post">
+          <label for="patient-name">Name <span aria-hidden="true">*</span></label><input id="patient-name" name="name" autocomplete="name" maxlength="120" required>
+          <div class="form-row"><div><label for="preferred-date">Preferred date <span aria-hidden="true">*</span></label><input id="preferred-date" name="date" type="date" required></div><div><label for="preferred-time">Preferred time <span aria-hidden="true">*</span></label><input id="preferred-time" name="time" type="time" required></div></div>
+          <label for="appointment">Treatment <span aria-hidden="true">*</span></label><select id="appointment" name="appointment" required><option value="">Please select a treatment</option><option value="physiotherapy">Physiotherapy</option><option value="sports-injury-rehabilitation">Sports Injury Rehabilitation</option><option value="post-operative-rehabilitation">Post-operative Rehabilitation</option><option value="movement-and-wellbeing">Movement &amp; Wellbeing</option><option value="shockwave-therapy">Shockwave Therapy</option><option value="myofascial-release">Myofascial Release</option><option value="triggerpoint-therapy">Triggerpoint Therapy</option><option value="exercise-rehabilitation">Exercise Rehabilitation</option><option value="electrotherapy">Electrotherapy</option><option value="dry-needling">Dry Needling</option><option value="cupping-therapy">Cupping Therapy</option><option value="acupuncture">Acupuncture</option><option value="sports-massage">Sports Massage</option></select>
+          <label for="booking-notes">Notes <span class="optional-label">(optional)</span></label><textarea id="booking-notes" name="notes" rows="4" maxlength="2000" aria-describedby="notes-help" placeholder="Anything you’d like to ask before your visit?"></textarea><p class="form-hint" id="notes-help">A brief note is enough. Please avoid including detailed medical history.</p>
+          <div class="booking-form-notice"><strong>Online submission is not connected yet.</strong><p>This form creates a request you can download and send to the clinic using its verified contact details. Your name and notes stay in this page until you download them; nothing is sent to the clinic.</p></div>
+          <button class="button" type="submit" id="booking-submit" disabled>Download appointment request <span aria-hidden="true">↓</span></button><noscript><p>Please enable JavaScript to prepare and download your appointment request.</p></noscript><p id="booking-status" role="status" aria-atomic="true"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+  <footer class="wrap"><div class="footer-top"><a class="brand" href="../index.html#home"><svg viewBox="0 0 42 46" fill="none" aria-hidden="true"><path d="M7 25V13L21 5l14 8v12M13 34V18l8-5 8 5v16M7 29l14 9 14-9M7 36l14 9 14-9" stroke="currentColor" stroke-width="2"/></svg><span>station house<span class="brand-sub">P H Y S I O T H E R A P Y</span></span></a><p>Helping you move forward.<br>One personal step at a time.</p><div><a href="../index.html#treatments">Treatments</a><a href="../index.html#about">About us</a><a href="#booking-form">Book now</a></div></div><div class="footer-bottom"><span>© <span id="year">2026</span> Station House Physio</span><span>stationhousephysio.co.uk</span><button class="privacy-button" data-privacy>Privacy & your information ↗</button></div></footer>
+<dialog id="privacy-dialog" aria-labelledby="privacy-title"><button class="dialog-close" aria-label="Close privacy information">×</button><p class="eyebrow">YOUR INFORMATION</p><h2 id="privacy-title">Privacy, simply.</h2><p>This preview website does not use analytics, advertising cookies, or store appointment information. Appointment enquiries are created on your device and downloaded only when you choose.</p><p>Fonts are loaded from Google Fonts and images from Unsplash; these services receive standard connection information such as your IP address. A clinic-specific privacy notice and booking provider details must be added before accepting patient information.</p></dialog>
+
+</body>
+</html>
