@@ -72,3 +72,5 @@
 .treatments-dropdown .dropdown-all:hover{text-decoration:underline}
 @media(max-width:1150px){.treatments-dropdown{right:32px}}
 @media(max-width:680px){.header nav{max-height:calc(100dvh - 130px);overflow-y:auto;overscroll-behavior:contain}.nav-treatments>summary{justify-content:space-between;padding:12px 0}.treatments-dropdown{position:static;width:100%;padding:14px;background:var(--soft-blue);box-shadow:none;margin:5px 0 12px}.dropdown-treatment-links{grid-template-columns:1fr;gap:0}.dropdown-treatment-links a{min-height:44px;font-size:12px}.treatments-dropdown .eyebrow{font-size:8px;letter-spacing:1.2px}.treatments-dropdown .dropdown-all{margin-top:8px}}
+/* Keep the pointer inside the dropdown when crossing from its trigger. */
+@media(hover:hover) and (min-width:681px){.treatments-dropdown:before{content:'';position:absolute;left:0;right:0;top:-32px;height:32px}}

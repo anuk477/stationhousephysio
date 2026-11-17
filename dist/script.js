@@ -1,7 +1,26 @@
 const menuToggle = document.querySelector('.menu-toggle');
 const navigation = document.querySelector('#navigation');
 const treatmentsDropdown = document.querySelector('.nav-treatments');
+const desktopHover = window.matchMedia('(any-hover: hover) and (min-width: 681px)');
+let dropdownCloseTimer;
+function cancelDropdownClose() {
+  clearTimeout(dropdownCloseTimer);
+}
+treatmentsDropdown.addEventListener('pointerenter', event => {
+  if (event.pointerType !== 'mouse' || !desktopHover.matches) return;
+  cancelDropdownClose();
+  treatmentsDropdown.open = true;
+});
+treatmentsDropdown.addEventListener('pointerleave', event => {
+  if (event.pointerType !== 'mouse' || !desktopHover.matches) return;
+  cancelDropdownClose();
+  dropdownCloseTimer = setTimeout(() => {
+    if (!treatmentsDropdown.matches(':focus-within')) treatmentsDropdown.open = false;
+  }, 250);
+});
+treatmentsDropdown.addEventListener('focusin', cancelDropdownClose);
 function closeMenu() {
+  cancelDropdownClose();
   treatmentsDropdown.open = false;
   navigation.classList.remove('is-open');
   menuToggle.setAttribute('aria-expanded', 'false');
@@ -16,6 +35,7 @@ menuToggle.addEventListener('click', () => {
 navigation.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
 document.addEventListener('keydown', event => {
   if (event.key !== 'Escape') return;
+  cancelDropdownClose();
   if (treatmentsDropdown.open) {
     treatmentsDropdown.open = false;
     treatmentsDropdown.querySelector('summary').focus();
