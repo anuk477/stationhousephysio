@@ -104,6 +104,22 @@ def card_to_link(match):
 
 home = re.sub(r'<button class="(treatment-card|specialist-treatment)" data-treatment="([^"]+)">(.*?)</button>', card_to_link, home, flags=re.S)
 home = re.sub(r'  <dialog id="treatment-dialog".*?</dialog>\s*', '', home, flags=re.S)
+dropdown_links = ''.join(
+    f'<a href="treatments/{row[1]}.html">{escape(row[2])}<span aria-hidden="true">↗</span></a>'
+    for row in TREATMENTS
+)
+dropdown = (
+    '<details class="nav-treatments"><summary>Treatments '
+    '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="1.5"/></svg>'
+    '</summary><div class="treatments-dropdown"><p class="eyebrow">FIND YOUR WAY FORWARD</p>'
+    '<div class="dropdown-treatment-links">' + dropdown_links + '</div>'
+    '<a class="dropdown-all" href="#treatments">View all treatments <span aria-hidden="true">→</span></a>'
+    '</div></details>'
+)
+if '<details class="nav-treatments">' in home:
+    home = re.sub(r'<details class="nav-treatments">.*?</details>', lambda _: dropdown, home, count=1, flags=re.S)
+else:
+    home = home.replace('<a href="#treatments">Treatments</a>', dropdown, 1)
 home_path.write_text(home, encoding='utf-8')
 head = home.split('<head>')[1].split('</head>')[0]
 header = home.split('<body>')[1].split('  <main id="main">')[0]
@@ -123,6 +139,8 @@ for key, slug, title, appointment, tagline, intro, overview, points, question, a
     nav = ''.join(f'<a href="{other[1]}.html"'+(' aria-current="page"' if other[0] == key else '')+f'>{e(other[2])}<span aria-hidden="true">↗</span></a>' for other in TREATMENTS)
     bullets = ''.join(f'<li>{e(point)}</li>' for point in points)
     page_header = page_links(header).replace('href="../index.html#booking"', 'href="#booking" data-book')
+    page_header = page_header.replace('href="treatments/', 'href="')
+    page_header = page_header.replace(f'href="{slug}.html"', f'href="{slug}.html" aria-current="page"')
     page = f'''<!doctype html>
 <html lang="en-GB">
 <head>{page_head}</head>

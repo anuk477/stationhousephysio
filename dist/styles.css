@@ -54,3 +54,21 @@
 .treatment-hero~.booking-section .button,.treatment-page-grid~.booking-section .button{white-space:normal;max-width:330px;text-align:left}
 @media(max-width:1000px){.treatment-hero-grid{gap:35px;grid-template-columns:1.2fr 1fr}.treatment-at-a-glance{padding:28px}.treatment-page-grid{gap:40px;grid-template-columns:minmax(0,1fr) 250px}}
 @media(max-width:680px){.breadcrumbs{padding-top:8px;font-size:10px;gap:8px}.treatment-hero{padding:40px 0}.treatment-hero-grid{grid-template-columns:1fr;gap:30px}.treatment-hero h1{font-size:43px;letter-spacing:-1.8px}.treatment-tagline{font-size:25px}.treatment-intro{font-size:14px}.treatment-at-a-glance{padding:28px}.treatment-at-a-glance h2{font-size:30px}.treatment-page-grid{grid-template-columns:1fr;gap:35px;padding-top:40px}.treatment-content h2{font-size:27px}.treatment-content section{margin-bottom:32px}.treatment-content p{font-size:13px}.treatment-sidebar{padding:22px}.treatment-sidebar nav{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:20px}.treatment-sidebar nav a{font-size:11px}.treatment-sidebar .text-link{font-size:12px}.treatment-page-grid~.booking-section .button{max-width:100%;font-size:12px;gap:20px}}
+/* Treatment navigation dropdown */
+.header{position:relative;z-index:10}
+.nav-treatments>summary{display:flex;align-items:center;gap:7px;min-height:44px;padding:10px 0;cursor:pointer;list-style:none;font-size:inherit;font-weight:500}
+.nav-treatments>summary::-webkit-details-marker{display:none}
+.nav-treatments>summary svg{width:15px;height:15px;transition:transform .2s}
+.nav-treatments[open]>summary svg{transform:rotate(180deg)}
+.nav-treatments>summary:hover,.nav-treatments[open]>summary{color:var(--blue)}
+.treatments-dropdown{position:absolute;right:56px;top:calc(100% - 12px);width:min(600px,calc(100vw - 64px));padding:26px;background:var(--surface);border:1px solid var(--line);border-radius:7px;box-shadow:0 16px 40px #123b6320;z-index:20}
+.treatments-dropdown .eyebrow{font-size:9px;margin-bottom:14px;color:var(--muted)}
+.dropdown-treatment-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px}
+.dropdown-treatment-links a{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:46px;padding:10px 7px;border-bottom:1px solid var(--line);font-size:12px;line-height:1.5;border-radius:3px}
+.dropdown-treatment-links a>span{font-size:17px;color:var(--blue)}
+.dropdown-treatment-links a:hover,.dropdown-treatment-links a[aria-current=page]{color:var(--blue);background:var(--soft-blue)}
+.dropdown-treatment-links a[aria-current=page]{font-weight:700}
+.treatments-dropdown .dropdown-all{display:flex;justify-content:space-between;align-items:center;min-height:44px;margin-top:16px;padding:10px 7px;color:var(--blue);font-size:12px;font-weight:600}
+.treatments-dropdown .dropdown-all:hover{text-decoration:underline}
+@media(max-width:1150px){.treatments-dropdown{right:32px}}
+@media(max-width:680px){.header nav{max-height:calc(100dvh - 130px);overflow-y:auto;overscroll-behavior:contain}.nav-treatments>summary{justify-content:space-between;padding:12px 0}.treatments-dropdown{position:static;width:100%;padding:14px;background:var(--soft-blue);box-shadow:none;margin:5px 0 12px}.dropdown-treatment-links{grid-template-columns:1fr;gap:0}.dropdown-treatment-links a{min-height:44px;font-size:12px}.treatments-dropdown .eyebrow{font-size:8px;letter-spacing:1.2px}.treatments-dropdown .dropdown-all{margin-top:8px}}

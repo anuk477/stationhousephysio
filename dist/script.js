@@ -1,6 +1,8 @@
 const menuToggle = document.querySelector('.menu-toggle');
 const navigation = document.querySelector('#navigation');
+const treatmentsDropdown = document.querySelector('.nav-treatments');
 function closeMenu() {
+  treatmentsDropdown.open = false;
   navigation.classList.remove('is-open');
   menuToggle.setAttribute('aria-expanded', 'false');
   menuToggle.setAttribute('aria-label', 'Open navigation');
@@ -12,9 +14,22 @@ menuToggle.addEventListener('click', () => {
   menuToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
 });
 navigation.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
-document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
+document.addEventListener('keydown', event => {
+  if (event.key !== 'Escape') return;
+  if (treatmentsDropdown.open) {
+    treatmentsDropdown.open = false;
+    treatmentsDropdown.querySelector('summary').focus();
+  } else if (navigation.classList.contains('is-open')) {
+    closeMenu();
+    menuToggle.focus();
+  }
+});
 document.addEventListener('click', event => {
+  if (!event.target.closest('.nav-treatments')) treatmentsDropdown.open = false;
   if (!event.target.closest('.header')) closeMenu();
+});
+treatmentsDropdown.addEventListener('focusout', event => {
+  if (!treatmentsDropdown.contains(event.relatedTarget)) treatmentsDropdown.open = false;
 });
 window.matchMedia('(min-width: 681px)').addEventListener('change', closeMenu);
 
