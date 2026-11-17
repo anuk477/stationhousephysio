@@ -32,122 +32,17 @@ document.querySelectorAll('dialog').forEach(dialog => {
     if (event.target === dialog && (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom)) dialog.close();
   });
 });
-const treatments = {
-  physio: { title: 'Physiotherapy', description: 'A starting point for understanding discomfort, stiffness, or changes in how you move. Your assessment explores your symptoms and how they affect your everyday life.', items: ['A conversation about your symptoms and goals', 'A movement and function assessment', 'Discussion of suitable treatment options', 'Individual exercise and self-management advice'], appointment: 0 },
-  sports: { title: 'Sports injury rehabilitation', description: 'A progressive approach to recovering from injury and working towards the demands of your sport, whether you’re an occasional participant or a regular competitor.', items: ['Assessment of your injury and sporting demands', 'A progressive strength and movement programme', 'Guidance on managing your training load', 'Review of your readiness to return to activity'], appointment: 1 },
-  postop: { title: 'Post-operative rehabilitation', description: 'Support for rebuilding movement, strength, and confidence following surgery. Your plan should take account of your procedure and the guidance from your surgical team.', items: ['Review of your surgical team’s recommendations', 'Appropriate movement and strengthening exercises', 'A staged plan towards everyday activities', 'Progress reviews as your recovery develops'], appointment: 2 },
-  movement: { title: 'Movement & wellbeing', description: 'A practical approach to feeling more comfortable and confident in everyday movement, shaped around your starting point and the activities you enjoy.', items: ['Discussion of your movement goals', 'Assessment of strength, balance, and mobility', 'Exercises suited to your current abilities', 'Support with building a manageable routine'], appointment: 3 }
-};
-Object.assign(treatments, {
-  "shockwave": {
-    "title": "Shockwave Therapy",
-    "description": "Interested in shockwave therapy? Use your appointment to discuss this option with your physiotherapist and how it might fit into your individual care plan.",
-    "items": [
-      "An assessment of your needs and goals",
-      "A discussion of suitability, alternatives, and what to expect",
-      "Time for your questions before agreeing on next steps"
-    ],
-    "appointment": 4
-  },
-  "myofascial": {
-    "title": "Myofascial Release",
-    "description": "Interested in myofascial release? Use your appointment to discuss this option with your physiotherapist and how it might fit into your individual care plan.",
-    "items": [
-      "An assessment of your needs and goals",
-      "A discussion of suitability, alternatives, and what to expect",
-      "Time for your questions before agreeing on next steps"
-    ],
-    "appointment": 5
-  },
-  "triggerpoint": {
-    "title": "Triggerpoint Therapy",
-    "description": "Interested in triggerpoint therapy? Use your appointment to discuss this option with your physiotherapist and how it might fit into your individual care plan.",
-    "items": [
-      "An assessment of your needs and goals",
-      "A discussion of suitability, alternatives, and what to expect",
-      "Time for your questions before agreeing on next steps"
-    ],
-    "appointment": 6
-  },
-  "exercise": {
-    "title": "Exercise Rehabilitation",
-    "description": "Interested in exercise rehabilitation? Use your appointment to discuss this option with your physiotherapist and how it might fit into your individual care plan.",
-    "items": [
-      "An assessment of your needs and goals",
-      "A discussion of suitability, alternatives, and what to expect",
-      "Time for your questions before agreeing on next steps"
-    ],
-    "appointment": 7
-  },
-  "electrotherapy": {
-    "title": "Electrotherapy",
-    "description": "Interested in electrotherapy? Use your appointment to discuss this option with your physiotherapist and how it might fit into your individual care plan.",
-    "items": [
-      "An assessment of your needs and goals",
-      "A discussion of suitability, alternatives, and what to expect",
-      "Time for your questions before agreeing on next steps"
-    ],
-    "appointment": 8
-  },
-  "dryneedling": {
-    "title": "Dry Needling",
-    "description": "Interested in dry needling? Use your appointment to discuss this option with your physiotherapist and how it might fit into your individual care plan.",
-    "items": [
-      "An assessment of your needs and goals",
-      "A discussion of suitability, alternatives, and what to expect",
-      "Time for your questions before agreeing on next steps"
-    ],
-    "appointment": 9
-  },
-  "cupping": {
-    "title": "Cupping Therapy",
-    "description": "Interested in cupping therapy? Use your appointment to discuss this option with your physiotherapist and how it might fit into your individual care plan.",
-    "items": [
-      "An assessment of your needs and goals",
-      "A discussion of suitability, alternatives, and what to expect",
-      "Time for your questions before agreeing on next steps"
-    ],
-    "appointment": 10
-  },
-  "acupuncture": {
-    "title": "Acupuncture",
-    "description": "Interested in acupuncture? Use your appointment to discuss this option with your physiotherapist and how it might fit into your individual care plan.",
-    "items": [
-      "An assessment of your needs and goals",
-      "A discussion of suitability, alternatives, and what to expect",
-      "Time for your questions before agreeing on next steps"
-    ],
-    "appointment": 11
-  },
-  "massage": {
-    "title": "Sports Massage",
-    "description": "Interested in sports massage? Use your appointment to discuss this option with your physiotherapist and how it might fit into your individual care plan.",
-    "items": [
-      "An assessment of your needs and goals",
-      "A discussion of suitability, alternatives, and what to expect",
-      "Time for your questions before agreeing on next steps"
-    ],
-    "appointment": 12
-  }
-});
-const treatmentDialog = document.querySelector('#treatment-dialog');
-document.querySelectorAll('[data-treatment]').forEach(button => {
-  button.addEventListener('click', () => {
-    const treatment = treatments[button.dataset.treatment];
-    document.querySelector('#treatment-title').textContent = treatment.title;
-    document.querySelector('#treatment-description').textContent = treatment.description;
-    document.querySelector('#treatment-list').replaceChildren(...treatment.items.map(item => {
-      const li = document.createElement('li'); li.textContent = item; return li;
-    }));
-    document.querySelector('#appointment').selectedIndex = treatment.appointment;
-    openDialog(treatmentDialog);
+const appointmentSelect = document.querySelector('#appointment');
+const defaultAppointment = Number(document.body.dataset.defaultAppointment);
+if (Number.isInteger(defaultAppointment) && defaultAppointment >= 0 && defaultAppointment < appointmentSelect.options.length) {
+  appointmentSelect.selectedIndex = defaultAppointment;
+}
+document.querySelectorAll('[data-book]').forEach(link => {
+  link.addEventListener('click', event => {
+    event.preventDefault();
+    document.querySelector('#booking-status').textContent = '';
+    openDialog(document.querySelector('#booking-dialog'));
   });
-});
-document.querySelector('#treatment-book').addEventListener('click', () => treatmentDialog.close());
-document.querySelector('[data-book]').addEventListener('click', event => {
-  event.preventDefault();
-  document.querySelector('#booking-status').textContent = '';
-  openDialog(document.querySelector('#booking-dialog'));
 });
 document.querySelector('[data-privacy]').addEventListener('click', () => openDialog(document.querySelector('#privacy-dialog')));
 const dateInput = document.querySelector('#preferred-date');
