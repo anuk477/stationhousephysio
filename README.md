@@ -6,6 +6,14 @@ A responsive website built with plain HTML, CSS, and JavaScript. All website fil
 
 Run `python -m http.server 8080 --directory dist` and visit http://localhost:8080.
 
+## GitHub Pages
+
+The GitHub Actions workflow in `.github/workflows/deploy-pages.yml` publishes the contents of `dist/` whenever site files are pushed to `main`. It can also be run manually from the repository's Actions tab. No installation or build step is required.
+
+In the repository's **Settings → Pages**, select **GitHub Actions** as the publishing source. The site URL is https://anuk477.github.io/stationhousephysio/. Links and asset paths are relative so they work under this project URL.
+
+GitHub Free requires a public repository for Pages. A private repository requires a plan that supports Pages. Publishing only uploads `dist/`; source files and backend scripts outside that directory are not part of the hosted website.
+
 ## Included
 
 - Responsive navigation and accessible mobile menu
