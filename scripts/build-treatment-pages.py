@@ -135,7 +135,7 @@ footer = '  <footer' + footer
 
 def page_links(fragment):
     fragment = re.sub(r'href="#(home|treatments|about|approach|faqs|first-visit)"', r'href="../index.html#\1"', fragment)
-    return fragment.replace('href="booking/', 'href="../booking/').replace('href="prices/', 'href="../prices/')
+    return fragment.replace('href="booking/', 'href="../booking/').replace('href="prices/', 'href="../prices/').replace('src="assets/', 'src="../assets/')
 
 out = DIST / 'treatments'
 out.mkdir(exist_ok=True)
